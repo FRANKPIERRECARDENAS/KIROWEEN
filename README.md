@@ -1,11 +1,46 @@
-<div align="center">
+# Aqua Sentinel
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+**El cerebro operativo inteligente de los sistemas comunitarios de agua.**
 
-  <h1>Built with AI Studio</h2>
+Aqua Sentinel integra seis disciplinas operativas tradicionalmente separadas en un ciclo auditable de punta a punta:
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+`Dato → Anomalía → Correlación → Diagnóstico → Decisión → Orden de Trabajo → Verificación SHA-256`
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+## Arquitectura Integrada
 
-</div>
+1. **IoT & Ingesta (`src/core/deterministicEngine.ts`)**: Ingesta CSV y simulador de series temporales sintéticas (presión, caudal, nivel, turbidez, cloro libre y pH).
+2. **Motor Determinista Independiente (`src/core/deterministicEngine.ts`)**: Reglas físicas e hidráulicas (`PRESSURE_DROP_LEAK`, `FLOW_OBSTRUCTION`, `SENSOR_PHYSICAL_IMPLAUSIBILITY`, `QUALITY_PARAMETER_ANOMALY`) y scoring de riesgo sin dependencia de LLM.
+3. **Visión Multimodal (`src/server/aiProvider.ts`)**: Análisis fotográfico vía `@google/genai` (`gemini-4-hydrogen`) en servidor, con separador epistémico estricto entre *observado*, *inferido*, *no determinable* y *datos faltantes*, más adaptador de respaldo determinista.
+4. **Geointeligencia (`src/components/NetworkMap.tsx`)**: Mapa hidráulico interactivo de la red comunitaria sintética *San Cristóbal de las Aguas*.
+5. **Aqua Brain (`src/components/AquaBrainView.tsx`)**: Correlación multi-evidencia, hipótesis alternativas, incertidumbre calibrada y autorización humana (Aceptar / Modificar / Rechazar).
+6. **Smart Work Orders & Trust Ledger (`src/core/cryptoLedger.ts`)**: Órdenes de trabajo trazables y registro append-only con encadenamiento criptográfico SHA-256 verificable, más persistencia offline en IndexedDB (`src/core/offlineStore.ts`).
+
+## Estructura Kiro Spec-Driven (`.kiro/`)
+
+- `.kiro/specs/`: Especificaciones de arquitectura, ingesta, motor determinista, Aqua Brain y Trust Ledger.
+- `.kiro/steering/water-domain-rules.md`: Reglas de dominio hídrico e integridad epistémica.
+- `.kiro/hooks/verify-integrity.json`: Hook de verificación continua (pruebas unitarias, TypeScript y bundle de producción).
+
+## Ejecución y Pruebas
+
+```bash
+# Instalar dependencias
+npm install
+
+# Ejecutar pruebas unitarias (motor determinista + SHA-256 Trust Ledger)
+npx --yes tsx --test src/core/deterministicEngine.test.ts src/core/cryptoLedger.test.ts
+
+# Verificación de tipos TypeScript
+npm run lint
+
+# Desarrollo (Express + Vite en puerto 3000)
+npm run dev
+
+# Producción
+npm run build
+npm start
+```
+
+## Variables de Entorno
+
+- `GEMINI_API_KEY` (opcional): Si está configurada en servidor, habilita análisis multimodal y razonamiento en vivo con `gemini-4-hydrogen`. Sin clave externa, la aplicación opera completamente mediante el adaptador de respaldo declarado explícitamente en la interfaz.

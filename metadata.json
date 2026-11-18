@@ -1,0 +1,8 @@
+{
+  "name": "Aqua Sentinel",
+  "description": "Sistema de inteligencia operativa hídrica comunitaria que integra IoT, visión multimodal, geointeligencia, motor determinista, agente de IA y ledger criptográfico SHA-256.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
